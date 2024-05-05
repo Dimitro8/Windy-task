@@ -46,18 +46,21 @@ fun MainView(modifier: Modifier = Modifier, viewModel: MainViewModel, sumStr: St
                 OutlinedTextField(modifier = modifier.fillMaxWidth(),
                     value = flowNumbers.value,
                     onValueChange = { value ->
-                        val isNumberValid = isValid(value.toIntOrNull())
-                        if (isNumberValid) {
+                        val isValid = value.toIntOrNull().isNumberValid()
+                        if (value == "" || isValid) {
                             flowNumbers.value = value
                         }
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Number
                     ),
-                    label = { Text(text = "Enter a value between 0 and 10.000") })
+                    label = { Text(text = "Enter a value between 1 and 10.000") })
 
                 //pu-pu-pu i see a problem without blocking a button while flows are running
-                Button(onClick = { viewModel.startSummationFlow(flowNumbers.value.toInt()) }) {
+                Button(
+                    onClick = { viewModel.startSummationFlow(flowNumbers.value.toInt()) },
+                    enabled = flowNumbers.value.toIntOrNull().isNumberValid()
+                ) {
                     Text(text = "Start")
                 }
             }
@@ -75,5 +78,5 @@ fun MainView(modifier: Modifier = Modifier, viewModel: MainViewModel, sumStr: St
     }
 }
 
-private fun isValid(value: Int?) =
-    value == null || (value in 0 until 10_000)
+private fun Int?.isNumberValid() =
+    this in 1 until 10_001
