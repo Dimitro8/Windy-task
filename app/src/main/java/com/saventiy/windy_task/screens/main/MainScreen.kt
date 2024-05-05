@@ -46,8 +46,8 @@ fun MainView(modifier: Modifier = Modifier, viewModel: MainViewModel, sumStr: St
                 OutlinedTextField(modifier = modifier.fillMaxWidth(),
                     value = flowNumbers.value,
                     onValueChange = { value ->
-                        val number = value.toIntOrNull()
-                        if (number == null || (number in 0 until 10_000)) {
+                        val isNumberValid = isValid(value.toIntOrNull())
+                        if (isNumberValid) {
                             flowNumbers.value = value
                         }
                     },
@@ -74,3 +74,6 @@ fun MainView(modifier: Modifier = Modifier, viewModel: MainViewModel, sumStr: St
         }
     }
 }
+
+private fun isValid(value: Int?) =
+    value == null || (value in 0 until 10_000)
