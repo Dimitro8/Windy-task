@@ -1,4 +1,3 @@
 package com.saventiy.windy_task.screens.main
 
-class MainViewState {
-}
+data class MainViewState(val sumStr: String)
